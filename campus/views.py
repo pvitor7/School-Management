@@ -9,7 +9,7 @@ class CampusListCreateView(generics.ListCreateAPIView):
     serializer_class = CampusSerializer
     
     
-class CampusIdView(SerializerByMethodMixin, generics.RetrieveUpdateDestroyAPIView):
+class CampusIdView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Campus.objects.all()
     serializer_class = CampusSerializer
     
