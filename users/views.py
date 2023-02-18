@@ -7,10 +7,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .utils import SerializerByMethodMixin
-from .permissions import OwnerUser
-
-from django.utils import timezone
-
+from .permissions import UserAuthenticated
 
 class UserCreateView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -18,13 +15,15 @@ class UserCreateView(generics.CreateAPIView):
 
 
 class UserListView(generics.ListAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
 class UserIdView(SerializerByMethodMixin, generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated, OwnerUser]
+    permission_classes = [IsAuthenticated, UserAuthenticated]
     queryset = User.objects.all()
     serializer_map = {
         'GET': UserSerializer,
