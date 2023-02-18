@@ -2,13 +2,12 @@ from django.contrib.auth import authenticate
 from .serializers import LoginSerializer, UserSerializer
 from rest_framework import generics
 from .models import User
-from rest_framework.views import Request, Response, APIView, status
+from rest_framework.views import Request, Response, APIView
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .utils import SerializerByMethodMixin
 from .permissions import OwnerUser
-from django.shortcuts import get_object_or_404
 
 from django.utils import timezone
 
