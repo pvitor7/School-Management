@@ -10,12 +10,12 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("campus", "0001_initial"),
+        ("courses", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name="Courses",
+            name="Classes",
             fields=[
                 (
                     "id",
@@ -29,9 +29,10 @@ class Migration(migrations.Migration):
                 ("title", models.CharField(max_length=48)),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 (
-                    "campus",
+                    "courses",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="campus.campus"
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="courses.courses",
                     ),
                 ),
             ],
