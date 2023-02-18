@@ -10,7 +10,6 @@ class RolesChoices(models.TextChoices):
     ADMIN = 7
     OWNER = 9
 
-
 class Campus(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     title = models.CharField(null=False, blank=False, max_length=48)
@@ -20,9 +19,7 @@ class Campus(models.Model):
 
 class Roles(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    title = models.CharField(null=False, blank=False, max_length=48)
+    title = models.CharField(null=False, blank=False, max_length=48, unique=True)
     permission = models.IntegerField(choices=RolesChoices.choices, default=RolesChoices.DEFAULT)
     campus = models.ForeignKey(Campus, on_delete=models.CASCADE, null=False)
-    
-
     
