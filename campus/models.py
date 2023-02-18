@@ -8,6 +8,7 @@ class RolesChoices(models.TextChoices):
     ASSISTENT = 3
     TEACHER = 5
     ADMIN = 7
+    OWNER = 9
 
 
 class Campus(models.Model):
