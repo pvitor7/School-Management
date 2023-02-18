@@ -7,7 +7,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .utils import SerializerByMethodMixin
-from .permissions import UserAuthenticated
+from .permissions import UserAccount
 
 class UserCreateView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -23,7 +23,7 @@ class UserListView(generics.ListAPIView):
 
 class UserIdView(SerializerByMethodMixin, generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated, UserAuthenticated]
+    permission_classes = [IsAuthenticated, UserAccount]
     queryset = User.objects.all()
     serializer_map = {
         'GET': UserSerializer,

@@ -1,8 +1,8 @@
 from rest_framework import permissions
 
-class UserAuthenticated(permissions.BasePermission):    
+class UserAccount(permissions.BasePermission):    
     def has_object_permission(self, request, view, obj):
-        if request.user:
+        if request.user == obj or request.user.id == obj.user.id:
             return True      
         return False
     
@@ -15,27 +15,27 @@ class OwnerAuthenticated(permissions.BasePermission):
     
 class AdminAuthenticated(permissions.BasePermission):    
     def has_object_permission(self, request, view, obj):
-        if request.user.role == 7:
+        if request.user.role >= 7:
             return True      
         return False
 
 
 class TeacherAuthenticated(permissions.BasePermission):    
     def has_object_permission(self, request, view, obj):
-        if request.user.role == 5:
+        if request.user.role >= 5:
             return True      
         return False
     
     
 class AssistantAuthenticated(permissions.BasePermission):    
     def has_object_permission(self, request, view, obj):
-        if request.user.role == 3:
+        if request.user.role >= 3:
             return True      
         return False
     
     
 class StudantAuthenticated(permissions.BasePermission):    
     def has_object_permission(self, request, view, obj):
-        if request.user.role == 3:
+        if request.user.role >= 3:
             return True      
         return False
