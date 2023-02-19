@@ -9,9 +9,15 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'password', 'first_name', 'last_name', 'email', 'cellphone', 'created_at']
         
     def create(self, validate_data: dict):
-        create_user = User.objects.create_user(**validate_data)
-        return create_user
-
+        user_authenticate = self.context['request'].user
+        users_already_exists = User.objects.all()
+        if len(users_already_exists) == 0:
+            create_user = User.objects.create_user(**validate_data)
+            return create_user
+        elif user_authenticate.role is True and user_authenticate.role.permission >=7:
+            create_user = User.objects.create_user(**validate_data)
+        else:
+            raise PermissionDenied("O usuário não tem permissão para realizar essa ação.") 
 
     def update(self, instance, validated_data):
         user_authenticate = self.context['request'].user
