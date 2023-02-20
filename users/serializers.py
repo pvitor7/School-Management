@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
         if len(users_already_exists) == 0:
             create_user = User.objects.create_user(**validate_data)
             return create_user
-        elif user_authenticate.role is True and user_authenticate.role.permission >=7:
+        elif user_authenticate.role.permission >=7:
             create_user = User.objects.create_user(**validate_data)
         else:
             raise PermissionDenied("O usuário não tem permissão para realizar essa ação.") 

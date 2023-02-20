@@ -33,6 +33,8 @@ class UserIdView(SerializerByMethodMixin, generics.RetrieveUpdateDestroyAPIView)
 
     
 class LoginView(APIView):
+    queryset = User.objects.all()
+    serializer_class = LoginSerializer
     
     def post(self, request: Request) -> Response:
         user_dict = request.data
