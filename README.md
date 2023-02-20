@@ -7,7 +7,7 @@ Sistema para o gerenciamento escolar.
 
 
 <p align = "center">
-Projeto full stack para a plataforma School Management - uma plataforma de gerenciamento para as instituições de ensino. Cada campus (unidade escolar) criado pode receber o cadastro de usuários, com nível de permissão de administrador, professor e alunos. Dentro de cada campus, podem ser cadastrados diferentes cursos. E dentro de cada curso podem ser cadastradas diferentes turmas de ensino. Os usuários são vinculados às turmas, cursos e espaços de trabalho.
+Projeto full stack School Management - uma plataforma de gerenciamento para as instituições de ensino. Cada campus (unidade escolar) criado pode receber o cadastro de usuários, com nível de permissão de administrador, professor, assistente de turma e estudante. Dentro de cada campus, podem ser cadastrados diferentes cursos. E dentro de cada curso podem ser cadastradas diferentes turmas. Os usuários são vinculados às turmas, cursos e espaços de trabalho.
 Este projeto faz a criação de um banco de dados, com todas as tabelas necessárias. E a criação de uma API para leitura, inclusão, atualização e deleção de dados no Banco.
 </p>
 
@@ -93,171 +93,56 @@ OBS: Para testar os endpoints da API, você pode usar o [Postman](https://www.po
 Endpoints
 </h3>
 
-
-### **User**
-
-[ Voltar para os Endpoints ](#5-endpoints)
-
-A criação do usuário é definida pelos campos abaixo
-
-| Campo        | Tipo    | Descrição                                        |
-| ------------ | ------- | ------------------------------------------------ |
-| id           | string  | Identificador único do usuário.                  |
-| username         | string  | O nome do usuário.                               |
-| email        | string  | O e-mail do usuário.                             |
-| cellphone     | string  | O número de contato do usuário.                  |
-| password     | string  | A senha de login do usuário.                     |
-
 ### Endpoints
 
-| Método | Rota              | Descrição                                                             |
-| ------ | ----------------- | --------------------------------------------------------------------- |
-| POST   | /login            | Gera o token de autenticação.                                         |
-| POST   | /users/register   | Criação de um Usuário.                                                |
-| GET    | /users/:id            | Lista todos os usuários.                                              |
-| PATCH  | /users/:id            | Atualiza um Usuario usando seu ID como parâmetro                      |
-| DELETE | /users/:id            | Deleta um Usuario usando seu ID como parâmetro                        |
+O primeiro usuário criado será designado como proprietário (role 9), ele poderá criar um ou mais campus, cadastrar administradores (role 7, sem vínculo de classe), professores (role 5), assistentes de classe (role 3) e alunos  (role 1).
 
+Abaixo seguem exemplos de todas e suas respectivas permissões, que poderão ser acessadas na docuntação, desde que o projeto esteja em execução, no seguinte local: http://localhost:8000/schema/swagger-ui/
 
-### `POST /users`
+#### **User**
+Endpoints: http://localhost:8000/schema/swagger-ui/#/users/
+| Método | Rota              | Descrição                                       | Permissão              |
+| ------ | ----------------- | ------------------------------------------------|-----------------------------------------------------------|
+| POST   | /users/register   | Criação de um Usuário.                          | Livre apenas para o primeiro usuário criado, que será o proprietário|
+| POST   | /login            | Gera o token de autenticação.                   | Sem permissão (token) necessária |
+| GET    | /users/:id        | Recupera um usuário pelo ID.                    | Assistentes, Professores, Administradores ou proprietários|
+| GET    | /users/           | Lista todos os usuários.                        | Assistentes, Professores, Administradores ou proprietários|
+| PATCH  | /users/:id        | Atualiza um Usuario usando seu ID como parâmetro | O próprio usuário (atualização de senha), administradores ou proprietários (outras propriedades)|
+| DELETE | /users/:id        | Deleta um Usuario usando seu ID como parâmetro   | Administradores ou proprietários |
 
-Cria um novo usuário.
+<br/>
 
-#### Parâmetros
+#### **Campus**
+Endpoints: http://localhost:8000/schema/swagger-ui/#/campus/
+| Método | Rota              | Descrição                                       | Permissão                                                 |
+| ------ | ----------------- | ------------------------------------------------|-----------------------------------------------------------|
+| POST   | /campus/register  | Criação de um Campus                            | Apenas o proprietário, que será o primeiro usuário criado |
+| GET    | /campus/          | Lista todos os campus                           | Todos os usuários vinculados                              |
+| GET    | /campus/:id       | Recupera um Campus por ID                       | Todos os usuários vinculados                              |
+| PATCH  | /campus/:id       | Atualiza um Campus usando seu ID como parâmetro | Administradores ou proprietários                          |
+| DELETE | /campus/:id       | Deleta um Usuario usando seu ID como parâmetro  | Proprietários                                             |
 
-- `username` (string, obrigatório): nome do usuário.
-- `email` (string, obrigatório): e-mail do usuário.
-- `cellphone` (string, obrigatório): telefone do usuário.
-- `password` (string, obrigatório): senha do usuário.
+<br/>
 
-#### Exemplo de requisição
+#### **Cursos**
+Endpoints: http://localhost:8000/schema/swagger-ui/#/courses/
+| Método | Rota              | Descrição                                       | Permissão                                                 |
+| ------ | ----------------- | ------------------------------------------------|-----------------------------------------------------------|
+| POST   | /cursos/register  | Criação de um curso                             | Administradores ou proprietários                          |
+| GET    | /cursos/          | Lista todos os cursos                           | Todos os usuários vinculados                              |
+| GET    | /cursos/:id       | Recupera um curso por ID                        | Todos os usuários vinculados                              |
+| PATCH  | /cursos/:id       | Atualiza um curso usando seu ID como parâmetro  | Administradores ou proprietários                          |
+| DELETE | /cursos/:id       | Deleta um Usuario usando seu ID como parâmetro  | Administradores ou proprietários                          |
 
-```
-POST `/users HTTP/1.1`
-Host: http://localhost:8000
-Content-Type: application/json
-```
+<br/>
 
-##### Corpo da Requisição:
-```json
+#### **Classes**
+Endpoints: http://localhost:8000/schema/swagger-ui/#/classes/
+| Método | Rota              | Descrição                                       | Permissão                                                 |
+| ------ | ----------------- | ------------------------------------------------|-----------------------------------------------------------|
+| POST   | /classes/register | Criação de uma classe                           | Administradores ou proprietários                          |
+| GET    | /classes/         | Lista todas as classes                          | Todos os usuários vinculados                              |
+| GET    | /classes/:id      | Recupera uma classe por ID                      | Todos os usuários vinculados                              |
+| PATCH  | /classes/:id      | Atualiza uma classe usando seu ID como parâmetro| Administradores ou proprietários                          |
+| DELETE | /classes/:id      | Deleta um Usuario usando seu ID como parâmetro  | Administradores ou proprietários                          |
 
-{
-    "name": "João da Silva",
-    "email": "joao.silva@exemplo.com",
-    "password": "s3nh4s3gur4",
-    "cellphone": "11900000000",
-}
-```
-
-##### Exemplo de resposta
-
-```
-201 Created
-```
-
-```json
-{
-    "id": "123e4567-e89b-12d3-a456-426655440000",
-    "name": "João da Silva",
-    "email": "joao.silva@exemplo.com",
-    "celphone": "11900000000",
-    "created_at": "2023-02-14T18:25:43.511Z",
-    "updated_at": "2023-02-14T18:25:43.511Z"
-}
-```
-
-
-### `/login`
-
-##### Exemplo de requisição
-
-```
-POST /login
-Host: http://localhost:8000
-Authorization: None
-Content-type: application/json
-```
-
-##### Corpo da Requisição:
-
-```json
-{
-    "email": "joao.silva@exemplo.com",
-    "password": "s3nh4s3gur4",
-}
-```
-
-##### Exemplo de Response:
-
-```
-200 Ok
-```
-
-```json
-{
-  "token": "a9ec5561c260f73c596128b7776d3e424b88d360"
-}
-```
-
-#### `GET /users/:id`
-
-Retorna informações sobre um usuário específico.
-
-
-##### Exemplo de requisição
-
-```
-PATCH /users
-Host: http://localhost:8000
-Authorization: ea9ec5561c260f73c596128b7776d3e424b88d360
-Content-type: application/json
-```
-
-##### Exemplo de Response:
-
-```
-200 OK
-```
-```json
-{
-    "id": "7b7eb384-6fce-4f10-ad25-9b26a9ce2d8a",
-    "name": "João da Silva",
-    "celphone": "11900000000",
-	"is_active": true,
-	"cart": {
-		"is_finished": false,
-		"products": []
-	}
-}
-```
-
-#### **Deletando Usuários Especifico**
-
-#### `/users`
-
-##### Exemplo de requisição
-
-```
-DELETE /users
-Host: http://localhost:8000
-Authorization: ea9ec5561c260f73c596128b7776d3e424b88d360
-Content-type: application/json
-```
-Para Deletar um único os usuários você precisa estar logado.
-
-
-##### Corpo da Requisição:
-
-```json
-Vazio
-```
-
-##### Exemplo de Response:
-
-```
-204 OK
-```
-
-```json
-Vazio
-```
