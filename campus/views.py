@@ -44,13 +44,12 @@ class CampusIdView(generics.RetrieveUpdateDestroyAPIView):
         return self.destroy(request, *args, **kwargs)
 
 
-
 class RolesListView(generics.ListAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [AdminAuthenticated]
     queryset = Roles.objects.all()
     serializer_class = RolesSerializer
     
-    @extend_schema(description='Recuperação de Roles (Administrador ou proprietário)', tags=['roles'])
+    @extend_schema(description='Recuperação de Roles para inclusão de IDs na criação de usuários (Administrador ou proprietário)', tags=['roles'])
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

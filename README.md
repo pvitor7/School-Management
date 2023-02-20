@@ -109,6 +109,15 @@ Endpoints: http://localhost:8000/schema/swagger-ui/#/users/
 | PATCH  | /users/:id        | Atualiza um Usuario usando seu ID como parâmetro | O próprio usuário (atualização de senha), administradores ou proprietários (outras propriedades)|
 | DELETE | /users/:id        | Deleta um Usuario usando seu ID como parâmetro   | Administradores ou proprietários |
 
+
+<br/>
+
+#### **Roles**
+Endpoints: http://localhost:8000/schema/swagger-ui/#/roles/
+| Método | Rota              | Descrição                                       | Permissão                                                 |
+| ------ | ----------------- | ------------------------------------------------|-----------------------------------------------------------|
+| POST   | /campus/roles/    | Lista a tabela roles e suas informações         | Administradores ou proprietários                          |
+
 <br/>
 
 #### **Campus**
