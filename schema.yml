@@ -1,0 +1,925 @@
+openapi: 3.0.3
+info:
+  title: ''
+  version: 0.0.0
+paths:
+  /api/schema/:
+    get:
+      operationId: api_schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /campus/:
+    get:
+      operationId: campus_list
+      tags:
+      - campus
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Campus'
+          description: ''
+    post:
+      operationId: campus_create
+      tags:
+      - campus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Campus'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Campus'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Campus'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campus'
+          description: ''
+  /campus/{id}/:
+    get:
+      operationId: campus_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this campus.
+        required: true
+      tags:
+      - campus
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campus'
+          description: ''
+    put:
+      operationId: campus_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this campus.
+        required: true
+      tags:
+      - campus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Campus'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Campus'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Campus'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campus'
+          description: ''
+    patch:
+      operationId: campus_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this campus.
+        required: true
+      tags:
+      - campus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCampus'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCampus'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCampus'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campus'
+          description: ''
+    delete:
+      operationId: campus_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this campus.
+        required: true
+      tags:
+      - campus
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /classes/:
+    get:
+      operationId: classes_list
+      tags:
+      - classes
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Classes'
+          description: ''
+    post:
+      operationId: classes_create
+      tags:
+      - classes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Classes'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Classes'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Classes'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Classes'
+          description: ''
+  /classes/{id}/:
+    get:
+      operationId: classes_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this classes.
+        required: true
+      tags:
+      - classes
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Classes'
+          description: ''
+    put:
+      operationId: classes_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this classes.
+        required: true
+      tags:
+      - classes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Classes'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Classes'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Classes'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Classes'
+          description: ''
+    patch:
+      operationId: classes_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this classes.
+        required: true
+      tags:
+      - classes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedClasses'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedClasses'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedClasses'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Classes'
+          description: ''
+    delete:
+      operationId: classes_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this classes.
+        required: true
+      tags:
+      - classes
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /courses/:
+    get:
+      operationId: courses_list
+      tags:
+      - courses
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Courses'
+          description: ''
+    post:
+      operationId: courses_create
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Courses'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Courses'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Courses'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Courses'
+          description: ''
+  /courses/{id}/:
+    get:
+      operationId: courses_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this courses.
+        required: true
+      tags:
+      - courses
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Courses'
+          description: ''
+    put:
+      operationId: courses_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this courses.
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Courses'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Courses'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Courses'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Courses'
+          description: ''
+    patch:
+      operationId: courses_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this courses.
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCourses'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCourses'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCourses'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Courses'
+          description: ''
+    delete:
+      operationId: courses_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this courses.
+        required: true
+      tags:
+      - courses
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /login/:
+    post:
+      operationId: login_create
+      tags:
+      - login
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /users/:
+    get:
+      operationId: users_list
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+          description: ''
+  /users/{id}/:
+    get:
+      operationId: users_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: users_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: users_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: users_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /users/register/:
+    post:
+      operationId: users_register_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+components:
+  schemas:
+    Campus:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 48
+        adress:
+          type: string
+          maxLength: 48
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - adress
+      - created_at
+      - id
+      - title
+    Classes:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 48
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        courses:
+          type: string
+          format: uuid
+      required:
+      - courses
+      - created_at
+      - id
+      - title
+    Courses:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 48
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        campus:
+          type: string
+          format: uuid
+      required:
+      - campus
+      - created_at
+      - id
+      - title
+    PatchedCampus:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 48
+        adress:
+          type: string
+          maxLength: 48
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedClasses:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 48
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        courses:
+          type: string
+          format: uuid
+    PatchedCourses:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 48
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        campus:
+          type: string
+          format: uuid
+    PatchedUser:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          maxLength: 128
+        first_name:
+          type: string
+          maxLength: 128
+        last_name:
+          type: string
+          maxLength: 128
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        cellphone:
+          type: string
+          maxLength: 12
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          maxLength: 128
+        first_name:
+          type: string
+          maxLength: 128
+        last_name:
+          type: string
+          maxLength: 128
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        cellphone:
+          type: string
+          maxLength: 12
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - cellphone
+      - created_at
+      - email
+      - first_name
+      - id
+      - last_name
+      - password
+      - username
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
