@@ -6,7 +6,7 @@ from rest_framework.exceptions import PermissionDenied
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'first_name', 'last_name', 'email', 'cellphone', 'created_at']
+        fields = ['id', 'username', 'password', 'first_name', 'last_name', 'email', 'cellphone', 'created_at', 'role']
         
     def create(self, validate_data: dict):
         user_authenticate = self.context['request'].user
@@ -16,6 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
             return create_user
         elif user_authenticate.role.permission >=7:
             create_user = User.objects.create_user(**validate_data)
+            return create_user
         else:
             raise PermissionDenied("O usuário não tem permissão para realizar essa ação.") 
 
