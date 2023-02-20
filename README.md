@@ -93,7 +93,6 @@ OBS: Para testar os endpoints da API, você pode usar o [Postman](https://www.po
 Endpoints
 </h3>
 
-### Endpoints
 
 O primeiro usuário criado será designado como proprietário (role 9), ele poderá criar um ou mais campus, cadastrar administradores (role 7, sem vínculo de classe), professores (role 5), assistentes de classe (role 3) e alunos  (role 1).
 
