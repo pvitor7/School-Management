@@ -1,6 +1,6 @@
 from rest_framework import generics
-from .models import Campus
-from .serializers import CampusSerializer
+from .models import Campus, Roles
+from .serializers import CampusSerializer, RolesSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from users.permissions import AdminAuthenticated, OwnerAuthenticated, StudantAuthenticated
@@ -42,3 +42,15 @@ class CampusIdView(generics.RetrieveUpdateDestroyAPIView):
     @extend_schema(description='Deleção de Campus (Proprietário)', tags=['campus'])
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+
+class RolesListView(generics.ListAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [AdminAuthenticated]
+    queryset = Roles.objects.all()
+    serializer_class = RolesSerializer
+    
+    @extend_schema(description='Recuperação de Roles (Administrador ou proprietário)', tags=['roles'])
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)

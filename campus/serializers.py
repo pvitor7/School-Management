@@ -20,3 +20,15 @@ class CampusSerializer(serializers.ModelSerializer):
             owner = Roles.objects.get(campus=campus, permission=9)
             User.objects.filter(id=self.context['request'].user.id).update(role=owner)
         return campus
+
+
+class RolesSerializer(serializers.ModelSerializer):
+    campus_name = serializers.SerializerMethodField()
+    class Meta:
+        model = Roles
+        fields = ['id', 'title', 'permission', 'campus', 'campus_name']
+
+
+    def get_campus_name(self, obj):
+        campus_name = Campus.objects.get(id=obj.campus.id).title
+        return campus_name
