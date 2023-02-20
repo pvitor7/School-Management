@@ -3,6 +3,7 @@ from .models import Courses
 from .serializers import CoursesSerializer
 from rest_framework.authentication import TokenAuthentication
 from users.permissions import AdminAuthenticated, StudantAuthenticated
+from drf_spectacular.utils import extend_schema
 
 
 class CoursesListCreateView(generics.ListCreateAPIView):
@@ -11,10 +12,33 @@ class CoursesListCreateView(generics.ListCreateAPIView):
     queryset = Courses.objects.all()
     serializer_class = CoursesSerializer
     
+    @extend_schema(description='Lista os cursos criados (Todos os vinculados a algum campus)', tags=['cursos'])
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    @extend_schema(description='Cria um novo curso (Adiministrador ou proprietário)', tags=['cursos'])
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
     
+
 class CoursesIdView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [StudantAuthenticated, AdminAuthenticated]
     queryset = Courses.objects.all()
     serializer_class = CoursesSerializer
     
+    @extend_schema(description='Recupera um curso pelo ID (Todos os vinculados a um campus)', tags=['cursos'])
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    @extend_schema(description='Atualiza um curso pelo ID (Adiministrador ou proprietário)', tags=['cursos'])
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    @extend_schema(description='Atualiza parcialmente um curso pelo ID (Adiministrador ou proprietário)', tags=['cursos'])
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    @extend_schema(description='Deleta um curso pelo ID (Adiministrador ou proprietário)', tags=['cursos'])
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
