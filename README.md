@@ -115,7 +115,7 @@ Endpoints: http://localhost:8000/schema/swagger-ui/#/users/
 Endpoints: http://localhost:8000/schema/swagger-ui/#/campus/
 | Método | Rota              | Descrição                                       | Permissão                                                 |
 | ------ | ----------------- | ------------------------------------------------|-----------------------------------------------------------|
-| POST   | /campus/register  | Criação de um Campus                            | Apenas o proprietário, que será o primeiro usuário criado |
+| POST   | /campus/register  | Criação de um Campus                            | Apenas o proprietário, que será o primeiro usuário criado, não precisará de token de Administrador e não precisará passar a propriedade 'role' (que corresponde ao nível de permissão, com role ID) na instituição. |
 | GET    | /campus/          | Lista todos os campus                           | Todos os usuários vinculados                              |
 | GET    | /campus/:id       | Recupera um Campus por ID                       | Todos os usuários vinculados                              |
 | PATCH  | /campus/:id       | Atualiza um Campus usando seu ID como parâmetro | Administradores ou proprietários                          |
