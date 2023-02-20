@@ -32,7 +32,7 @@ Este projeto faz a criação de um banco de dados, com todas as tabelas necessá
 ##### 1. Clone este repositório em sua máquina local.
 
 ```
-git clone git@github.com:pvitor7/PS-Python-React.git
+git clone git@github.com:pvitor7/School-Management.git
 ```
 
 ##### 2. Acesse a pasta do projeto.
