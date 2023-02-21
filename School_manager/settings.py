@@ -56,7 +56,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = ['rest_framework', 'rest_framework.authtoken', 'drf_spectacular']
+THIRD_PARTY_APPS = ['rest_framework', 'rest_framework.authtoken', 'drf_spectacular', 'corsheaders']
 
 MY_APPS = ['users', 'campus', 'courses', 'classes']
 
@@ -70,7 +70,14 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
+
+CORS_ALLOWED_ORIGINS = [
+	'http://localhost:3000'
+]
+
+CORS_ALLOW_ALL_ORIGINS=True
 
 ROOT_URLCONF = "School_manager.urls"
 

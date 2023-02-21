@@ -8,7 +8,7 @@ from drf_spectacular.utils import extend_schema
 
 class CampusListCreateView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [StudantAuthenticated, IsAuthenticated]
+    permission_classes = [StudantAuthenticated, AdminAuthenticated]
     queryset = Campus.objects.all()
     serializer_class = CampusSerializer
 
