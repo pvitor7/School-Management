@@ -1,9 +1,10 @@
 from rest_framework import generics
 from .models import Courses
-from .serializers import CoursesSerializer
+from .serializers import CoursesSerializer, CoursesRetriveSerializer
 from rest_framework.authentication import TokenAuthentication
 from users.permissions import AdminAuthenticated, StudantAuthenticated
 from drf_spectacular.utils import extend_schema
+from users.utils import SerializerByMethodMixin
 
 
 class CoursesListCreateView(generics.ListCreateAPIView):
@@ -21,11 +22,16 @@ class CoursesListCreateView(generics.ListCreateAPIView):
         return self.create(request, *args, **kwargs)
     
 
-class CoursesIdView(generics.RetrieveUpdateDestroyAPIView):
+class CoursesIdView(SerializerByMethodMixin, generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [StudantAuthenticated, AdminAuthenticated]
     queryset = Courses.objects.all()
-    serializer_class = CoursesSerializer
+    serializer_map = {
+        "PATCH": CoursesSerializer,
+        "GET": CoursesRetriveSerializer,
+        "DELETE": CoursesSerializer,
+    }
+    
     
     @extend_schema(description='Recupera um curso pelo ID (Todos os vinculados a um campus)', tags=['courses'])
     def get(self, request, *args, **kwargs):

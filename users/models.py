@@ -11,7 +11,7 @@ class User(AbstractUser):
     last_name = models.CharField(null=False, blank=False, max_length=128)
     email = models.EmailField(unique=True, null=False, blank=False)
     cellphone = models.CharField(max_length=12, null=False, blank=False, unique=True)
-    classe = models.ForeignKey(Roles, on_delete=models.SET_NULL, null=True, related_name="classe")
+    classe = models.ForeignKey(Classes, on_delete=models.SET_NULL, null=True, related_name="classe")
     role = models.ForeignKey(Roles, on_delete=models.SET_NULL, null=True, related_name="role")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

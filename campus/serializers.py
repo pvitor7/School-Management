@@ -3,6 +3,8 @@ from rest_framework import serializers
 from django.db import transaction
 from .utils import roles
 from users.models import User
+from courses.models import Courses
+from django.forms.models import model_to_dict
 
 
 class CampusSerializer(serializers.ModelSerializer):
@@ -20,6 +22,23 @@ class CampusSerializer(serializers.ModelSerializer):
             owner = Roles.objects.get(campus=campus, permission=9)
             User.objects.filter(id=self.context['request'].user.id).update(role=owner)
         return campus
+
+
+class CampusRetriveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Campus
+        fields = "__all__"
+    courses = serializers.SerializerMethodField()
+
+    def get_courses(self, obj):
+        list_courses = []
+        courses = Courses.objects.filter(campus=obj)
+        for item in courses:
+            course = model_to_dict(item)
+            course['id'] = str(item.id)
+            list_courses.append(course)
+        return list_courses
+
 
 
 class RolesSerializer(serializers.ModelSerializer):

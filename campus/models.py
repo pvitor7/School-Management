@@ -19,7 +19,7 @@ class Campus(models.Model):
 
 class Roles(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    title = models.CharField(null=False, blank=False, max_length=48, unique=True)
+    title = models.CharField(null=False, blank=False, max_length=48)
     permission = models.IntegerField(choices=RolesChoices.choices, default=RolesChoices.DEFAULT)
     campus = models.ForeignKey(Campus, on_delete=models.CASCADE, null=False)
     
