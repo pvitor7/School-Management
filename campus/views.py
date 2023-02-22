@@ -1,10 +1,11 @@
 from rest_framework import generics
 from .models import Campus, Roles
-from .serializers import CampusSerializer, RolesSerializer
+from .serializers import CampusSerializer, RolesSerializer, CampusRetriveSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from users.permissions import AdminAuthenticated, OwnerAuthenticated, StudantAuthenticated
 from drf_spectacular.utils import extend_schema
+from users.utils import SerializerByMethodMixin
 
 class CampusListCreateView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
@@ -21,11 +22,15 @@ class CampusListCreateView(generics.ListCreateAPIView):
         return self.create(request, *args, **kwargs)
 
 
-class CampusIdView(generics.RetrieveUpdateDestroyAPIView):
+class CampusIdView(SerializerByMethodMixin, generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [StudantAuthenticated, AdminAuthenticated, OwnerAuthenticated]
     queryset = Campus.objects.all()
-    serializer_class = CampusSerializer
+    serializer_map = {
+        "PATCH": CampusSerializer,
+        "GET": CampusRetriveSerializer,
+        "DELETE": CampusRetriveSerializer,
+    }
 
     @extend_schema(description='Recuperação de Campus (Todos os vinculados a um campus)', tags=['campus'])
     def get(self, request, *args, **kwargs):
@@ -52,4 +57,4 @@ class RolesListView(generics.ListAPIView):
     
     @extend_schema(description='Recuperação de Roles para inclusão de IDs na criação de usuários (Administrador ou proprietário)', tags=['roles'])
     def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
+        return self.list(request, *args, **kwargs)
