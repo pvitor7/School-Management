@@ -11,9 +11,14 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validate_data: dict):
         user_authenticate = self.context['request'].user
         users_already_exists = User.objects.all()
+        new_user_role = validate_data.get('role', None)
         if len(users_already_exists) == 0:
             create_user = User.objects.create_user(**validate_data)
             return create_user
+        
+        elif len(users_already_exists) != 0 and new_user_role == None:
+            raise PermissionDenied("Propriedade 'role' ausente!") 
+        
         elif user_authenticate.role.permission >=7:
             create_user = User.objects.create_user(**validate_data)
             return create_user

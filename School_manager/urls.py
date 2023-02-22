@@ -25,8 +25,8 @@ from drf_spectacular.views import (
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include('users.urls')),
+    path('', include('courses.urls')),
     path('campus/', include('campus.urls')),
-    path('courses/', include('courses.urls')),
     path('classes/', include('classes.urls')),
     path('subjects/', include('subjects.urls')),
     

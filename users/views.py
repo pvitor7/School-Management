@@ -2,9 +2,9 @@ from django.contrib.auth import authenticate
 from .serializers import LoginSerializer, UserSerializer
 from rest_framework import generics
 from .models import User
+from django.shortcuts import get_object_or_404
 from rest_framework.views import Request, Response, APIView
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .utils import SerializerByMethodMixin
 from .permissions import AssistantAuthenticated, UserAccountOrAdmin, UserAccountOrAassistant
@@ -65,6 +65,17 @@ class LoginView(APIView):
     @extend_schema(description='Login de usuários')
     def post(self, request: Request) -> Response:
         user_dict = request.data
+        
+        if request.data.get('email'):
+            username = get_object_or_404(
+            User, email=request.data['email']).username
+            user_dict['username'] = username
+
+        elif request.data.get('cellphone'):
+            username = get_object_or_404(
+            User, cellphone=request.data['cellphone']).username
+            user_dict['username'] = username
+        
         serializer = LoginSerializer(data=user_dict)
         serializer.is_valid(raise_exception=True)
         login_user = authenticate(**serializer.validated_data)
