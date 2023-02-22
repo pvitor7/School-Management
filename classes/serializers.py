@@ -20,6 +20,7 @@ class ClassesRetriveSerializer(serializers.ModelSerializer):
         list_classes = []
         classes = User.objects.filter(classe=obj.id)
         for item in classes:
-            list_classes.append(model_to_dict(item))
+            studant = {"id": item.id, "first_name": item.first_name, "last_name": item.last_name, "cellphone": item.cellphone, "email": item.email}
+            list_classes.append(studant)
         return list_classes
 
