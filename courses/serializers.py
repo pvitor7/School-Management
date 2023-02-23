@@ -23,29 +23,6 @@ class CoursesSerializer(serializers.ModelSerializer):
         return model_to_dict(course)
 
 
-class CoursesRetriveSerializer(serializers.ModelSerializer):
-    classes = serializers.SerializerMethodField()
-    class Meta:
-        model = Courses
-        fields = "__all__"
-
-    def get_classes(self, obj):
-        list_classes = []
-        classes = Classes.objects.filter(courses=obj)
-        for item in classes:
-            classe = model_to_dict(item)
-            classe['id'] = str(item.id)
-            list_classes.append(classe)
-            
-        return list_classes
-
-    def to_representation(self, instance):
-        kwargs = self.context['request'].parser_context['kwargs']
-        campus_id = kwargs['campus_id']
-        course_id = kwargs['pk']
-        course = Courses.objects.get(id=course_id, campus=campus_id)
-        return super().to_representation(course)
-
 
 class CreateCoursesSerializer(serializers.ModelSerializer):
     campus = serializers.ReadOnlyField()
@@ -63,3 +40,21 @@ class CreateCoursesSerializer(serializers.ModelSerializer):
             course_dict = model_to_dict(course)
             course_dict['id'] = course_id
         return course_dict
+    
+    
+    
+class CoursesRetriveSerializer(serializers.ModelSerializer):
+    classes = serializers.SerializerMethodField()
+    class Meta:
+        model = Courses
+        fields = "__all__"
+
+    def get_classes(self, obj):
+        list_classes = []
+        classes = Classes.objects.filter(courses=obj)
+        for item in classes:
+            classe = model_to_dict(item)
+            classe['id'] = str(item.id)
+            list_classes.append(classe)
+            
+        return list_classes

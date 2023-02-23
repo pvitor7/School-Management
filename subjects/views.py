@@ -24,7 +24,7 @@ class SubjectsListCreateView(generics.ListCreateAPIView):
 
 class SubjectsIdView(SerializerByMethodMixin, generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [StudantAuthenticated, AdminAuthenticated, OwnerAuthenticated]
+    permission_classes = [StudantAuthenticated, AdminAuthenticated]
     queryset = Subjects.objects.all()
     serializer_map = {
         "PATCH": SubjectsSerializer,

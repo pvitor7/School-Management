@@ -25,6 +25,7 @@ class ClassesSerializer(serializers.ModelSerializer):
         return classe_dict
    
    
+   
 class ClassesRetriveSerializer(serializers.ModelSerializer):
     studants = serializers.SerializerMethodField()
     class Meta:
