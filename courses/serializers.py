@@ -11,7 +11,7 @@ class CoursesSerializer(serializers.ModelSerializer):
     campus = CampusSerializer(read_only=True)
     class Meta:
         model = Courses
-        fields = ['title', 'campus']
+        fields = ['id', 'title', 'campus']
     
     def create(self, validated_data):
         with transaction.atomic():
@@ -51,13 +51,15 @@ class CreateCoursesSerializer(serializers.ModelSerializer):
     campus = serializers.ReadOnlyField()
     class Meta:
         model = Courses
-        fields = ['title', 'campus']
+        fields = ['id', 'title', 'campus']
     
     def create(self, validated_data):
         with transaction.atomic():
-            kwargs = self.context['request'].parser_context['kwargs']
-            campus_id = kwargs['campus_id']
+            campus_id = self.context['request'].parser_context['kwargs']['campus_id']
             campus = Campus.objects.get(id=campus_id)
             validated_data['campus'] = campus
             course = super().create(validated_data)
-        return model_to_dict(course)
+            course_id = course.id
+            course_dict = model_to_dict(course)
+            course_dict['id'] = course_id
+        return course_dict
