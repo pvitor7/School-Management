@@ -1,17 +1,20 @@
 from rest_framework import generics
 from .models import Courses
-from .serializers import CoursesSerializer, CoursesRetriveSerializer
+from .serializers import CoursesSerializer, CoursesRetriveSerializer, CreateCoursesSerializer
 from rest_framework.authentication import TokenAuthentication
 from users.permissions import AdminAuthenticated, StudantAuthenticated
 from drf_spectacular.utils import extend_schema
 from users.utils import SerializerByMethodMixin
 
 
-class CoursesListCreateView(generics.ListCreateAPIView):
+class CoursesListCreateView(SerializerByMethodMixin, generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [StudantAuthenticated, AdminAuthenticated]
     queryset = Courses.objects.all()
-    serializer_class = CoursesSerializer
+    serializer_map = {
+        "POST": CreateCoursesSerializer,
+        "GET": CoursesSerializer
+    }
     
     @extend_schema(description='Lista os cursos criados (Todos os vinculados a algum campus)', tags=['courses'])
     def get(self, request, *args, **kwargs):
