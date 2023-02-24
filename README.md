@@ -100,13 +100,22 @@ OBS: Para testar os endpoints da API, você pode usar o [Postman](https://www.po
 
 <h3 align= "center">
 
-Endpoints
+Sobre a aplicação
 </h3>
 
 
+
 O primeiro usuário criado será designado como proprietário (role 9), ele poderá criar um ou mais campus, cadastrar administradores (role 7, sem vínculo de classe), professores (role 5), assistentes de classe (role 3) e alunos  (role 1).
+As dicliplinas (subjects) são associadas aos alunos e ao curso, elas criarão 4 campos de pontuação que podem ser utilizados para calcular a média final e definir critérios de aprovação.
 
 Abaixo seguem exemplos de todas e suas respectivas permissões, que poderão ser acessadas na docuntação, desde que o projeto esteja em execução, no seguinte local: http://localhost:8000/schema/swagger-ui/
+
+<br/>
+
+<h3 align= "center">
+
+Endpoints
+</h3>
 
 #### **User**
 Endpoints: http://localhost:8000/schema/swagger-ui/#/users/
@@ -126,7 +135,7 @@ Endpoints: http://localhost:8000/schema/swagger-ui/#/users/
 Endpoints: http://localhost:8000/schema/swagger-ui/#/roles/
 | Método | Rota              | Descrição                                       | Permissão                                                 |
 | ------ | ----------------- | ------------------------------------------------|-----------------------------------------------------------|
-| POST   | /campus/roles/    | Lista a tabela roles e suas informações         | Administradores ou proprietários                          |
+| GET   | /campus/roles/    | Lista a tabela roles (permissões) e suas informações         | Administradores ou proprietários                          |
 
 <br/>
 
@@ -134,7 +143,7 @@ Endpoints: http://localhost:8000/schema/swagger-ui/#/roles/
 Endpoints: http://localhost:8000/schema/swagger-ui/#/campus/
 | Método | Rota              | Descrição                                       | Permissão                                                 |
 | ------ | ----------------- | ------------------------------------------------|-----------------------------------------------------------|
-| POST   | /campus/register  | Criação de um Campus                            | Apenas o proprietário, que será o primeiro usuário criado, não precisará de token de Administrador e não precisará passar a propriedade 'role' (que corresponde ao nível de permissão, com role ID) na instituição. |
+| POST   | /campus/  | Criação de um Campus                            | Apenas o proprietário, que será o primeiro usuário criado, não precisará de token de Administrador e não precisará passar a propriedade 'role' (que corresponde ao nível de permissão, com role ID) na instituição. |
 | GET    | /campus/          | Lista todos os campus                           | Todos os usuários vinculados                              |
 | GET    | /campus/:id       | Recupera um Campus por ID                       | Todos os usuários vinculados                              |
 | PATCH  | /campus/:id       | Atualiza um Campus usando seu ID como parâmetro | Administradores ou proprietários                          |
@@ -146,11 +155,11 @@ Endpoints: http://localhost:8000/schema/swagger-ui/#/campus/
 Endpoints: http://localhost:8000/schema/swagger-ui/#/courses/
 | Método | Rota              | Descrição                                       | Permissão                                                 |
 | ------ | ----------------- | ------------------------------------------------|-----------------------------------------------------------|
-| POST   | /cursos/register  | Criação de um curso                             | Administradores ou proprietários                          |
-| GET    | /cursos/          | Lista todos os cursos                           | Todos os usuários vinculados                              |
-| GET    | /cursos/:id       | Recupera um curso por ID                        | Todos os usuários vinculados                              |
-| PATCH  | /cursos/:id       | Atualiza um curso usando seu ID como parâmetro  | Administradores ou proprietários                          |
-| DELETE | /cursos/:id       | Deleta um Usuario usando seu ID como parâmetro  | Administradores ou proprietários                          |
+| POST   | /campus/:id/cursos/register  | Criação de um curso                             | Administradores ou proprietários                          |
+| GET    | /campus/:id/cursos/          | Lista todos os cursos                           | Todos os usuários vinculados                              |
+| GET    | /campus/:id/cursos/:id       | Recupera um curso por ID                        | Todos os usuários vinculados                              |
+| PATCH  | /campus/:id/cursos/:id       | Atualiza um curso usando seu ID como parâmetro  | Administradores ou proprietários                          |
+| DELETE | /campus/:id/cursos/:id       | Deleta um curso usando seu ID como parâmetro  | Administradores ou proprietários                          |
 
 <br/>
 
@@ -158,9 +167,21 @@ Endpoints: http://localhost:8000/schema/swagger-ui/#/courses/
 Endpoints: http://localhost:8000/schema/swagger-ui/#/classes/
 | Método | Rota              | Descrição                                       | Permissão                                                 |
 | ------ | ----------------- | ------------------------------------------------|-----------------------------------------------------------|
-| POST   | /classes/register | Criação de uma classe                           | Administradores ou proprietários                          |
-| GET    | /classes/         | Lista todas as classes                          | Todos os usuários vinculados                              |
-| GET    | /classes/:id      | Recupera uma classe por ID                      | Todos os usuários vinculados                              |
-| PATCH  | /classes/:id      | Atualiza uma classe usando seu ID como parâmetro| Administradores ou proprietários                          |
-| DELETE | /classes/:id      | Deleta um Usuario usando seu ID como parâmetro  | Administradores ou proprietários                          |
+| POST   | /campus/cursos/:id/classes/register | Criação de uma classe                           | Administradores ou proprietários                          |
+| GET    | /campus/cursos/:id/classes/         | Lista todas as classes                          | Todos os usuários vinculados                              |
+| GET    | /campus/cursos/:id/classes/:id      | Recupera uma classe por ID                      | Todos os usuários vinculados                              |
+| PATCH  | /campus/cursos/:id/classes/:id      | Atualiza uma classe usando seu ID como parâmetro| Administradores ou proprietários                          |
+| DELETE | /campus/cursos/:id/classes/:id      | Deleta uma classe usando seu ID como parâmetro  | Administradores ou proprietários                          |
+
+<br/>
+
+#### **Subjects**
+Endpoints: http://localhost:8000/schema/swagger-ui/#/subjects/
+| Método | Rota              | Descrição                                       | Permissão                                                 |
+| ------ | ----------------- | ------------------------------------------------|-----------------------------------------------------------|
+| POST   | /campus/cursos/:id/subjects/ | Criação de uma disciplina                           | Administradores ou proprietários                          |
+| GET    | campus/cursos/:id/subjects/         | Lista todas as disciplinas                          | Todos os usuários vinculados                              |
+| GET    | campus/cursos/:id/subjects/:id      | Recupera uma disciplina por ID                      | Todos os usuários vinculados                              |
+| PATCH  | campus/cursos/:id/subjects/:id      | Atualiza uma disciplina usando seu ID como parâmetro| Administradores ou proprietários                          |
+| DELETE | campus/cursos/:id/subjects/:id      | Deleta uma disciplina usando seu ID como parâmetro  | Administradores ou proprietários                          |
 
