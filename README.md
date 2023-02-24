@@ -12,6 +12,8 @@ Este projeto faz a criação de um banco de dados, com todas as tabelas necessá
 </p>
 
 
+
+
 <blockquote align="center"></blockquote>
 
 <h3 align= "center">
@@ -22,6 +24,14 @@ Este projeto faz a criação de um banco de dados, com todas as tabelas necessá
   As tecnologias utilizadas no projeto foram: Python | PostgreSQL | Django | Django Rest Framework | SQLite .
 </p>
 <br/>
+
+
+<h4 align= "center">
+  Relacionamentos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</h4>
+
+
+<img src='Relations.png'>
 <br/>
 
 <h3 align= "center">
