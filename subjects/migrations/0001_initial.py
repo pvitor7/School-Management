@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Campus",
+            name="Subjects",
             fields=[
                 (
                     "id",
@@ -24,12 +24,10 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("title", models.CharField(max_length=48)),
-                ("adress", models.CharField(max_length=48)),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
         ),
         migrations.CreateModel(
-            name="Roles",
+            name="SubjectsStudants",
             fields=[
                 (
                     "id",
@@ -40,25 +38,35 @@ class Migration(migrations.Migration):
                         serialize=False,
                     ),
                 ),
-                ("title", models.CharField(max_length=48)),
                 (
-                    "permission",
-                    models.IntegerField(
-                        choices=[
-                            ("0", "Default"),
-                            ("1", "Studant"),
-                            ("3", "Assistent"),
-                            ("5", "Teacher"),
-                            ("7", "Admin"),
-                            ("9", "Owner"),
-                        ],
-                        default="0",
+                    "test_1",
+                    models.DecimalField(
+                        decimal_places=1, default=None, max_digits=3, null=True
                     ),
                 ),
                 (
-                    "campus",
+                    "test_2",
+                    models.DecimalField(
+                        decimal_places=1, default=None, max_digits=3, null=True
+                    ),
+                ),
+                (
+                    "test_3",
+                    models.DecimalField(
+                        decimal_places=1, default=None, max_digits=3, null=True
+                    ),
+                ),
+                (
+                    "test_4",
+                    models.DecimalField(
+                        decimal_places=1, default=None, max_digits=3, null=True
+                    ),
+                ),
+                (
+                    "subject",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="campus.campus"
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="subjects.subjects",
                     ),
                 ),
             ],
