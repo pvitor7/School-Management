@@ -8,7 +8,7 @@ from django.db import transaction
 
 
 class ClassesSerializer(serializers.ModelSerializer):
-    courses = serializers.ReadOnlyField()
+    courses = CoursesSerializer(read_only=True)
     class Meta:
         model = Classes
         fields = ['id', 'title', 'courses']

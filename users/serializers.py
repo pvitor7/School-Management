@@ -3,13 +3,30 @@ from .models import User
 from campus.models import Roles
 from rest_framework.exceptions import PermissionDenied
 from subjects.models import SubjectsStudants, Subjects
+from subjects.serializers import SubjectsSerializer
 from django.db import transaction
+
+class UserRetriveSerializer(serializers.ModelSerializer):
+    
+    subjects = serializers.SerializerMethodField()
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'password', 'first_name', 'last_name', 'email', 'cellphone', 'classe', 'created_at', 'role', 'subjects']
+    
+    def get_subjects(self, obj):
+        list_subjects = [];
+        subjects_user = SubjectsStudants.objects.filter(user=obj.id)
+        for item in subjects_user:
+            subject_dict = {"id": str(item.id), "subject": item.subject.title, "test_1": item.test_1, "test_2": item.test_2, "test_3": item.test_3, "test_4": item.test_4}
+            list_subjects.append(subject_dict)
+        return list_subjects
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'password', 'first_name', 'last_name', 'email', 'cellphone', 'classe', 'created_at', 'role']
+    
         
     def create(self, validate_data: dict):
         with transaction.atomic():
