@@ -19,20 +19,30 @@ dotenv.load_dotenv()
 
 SECRET_KEY= os.getenv('SECRET_KEY')
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("POSTGRES_DB"),
-            "USER": os.getenv("POSTGRES_USER"),
-            "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-            "HOST": "127.0.0.1",
-            "PORT": 5432,
-    }
-}
-
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+
+DATABASES = {
+    #    "test": {
+    #         "ENGINE": "django.db.backends.sqlite3",
+    #         "NAME": BASE_DIR / "db.sqlite3",
+    #     },
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+                "NAME": os.getenv("POSTGRES_DB"),
+                "USER": os.getenv("POSTGRES_USER"),
+                "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+                "HOST": "127.0.0.1",
+                "PORT": 5432,
+        },
+     
+    }
+
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -174,6 +184,7 @@ REST_FRAMEWORK = {
 #     'PAGE_SIZE' : 5,
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+
 
 from drf_spectacular.utils import extend_schema
 from django.http import JsonResponse

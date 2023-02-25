@@ -28,7 +28,5 @@ class SubjectsSerializer(serializers.ModelSerializer):
                 
                 for user in list_studant:
                     SubjectsStudants.objects.create(subject=new_subject, user=user);
-                    
-            import ipdb ; ipdb.set_trace()
-                        
+                                            
         return new_subject;

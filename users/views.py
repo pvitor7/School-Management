@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate
-from .serializers import LoginSerializer, UserSerializer
+from .serializers import LoginSerializer, UserSerializer, UserRetriveSerializer
 from rest_framework import generics
 from .models import User
 from django.shortcuts import get_object_or_404
@@ -35,7 +35,7 @@ class UserIdView(SerializerByMethodMixin, generics.RetrieveUpdateDestroyAPIView)
     permission_classes = [UserAccountOrAassistant, UserAccountOrAdmin]
     queryset = User.objects.all()
     serializer_map = {
-        'GET': UserSerializer,
+        'GET': UserRetriveSerializer,
         'PATCH': UserSerializer,
         'DELETE': UserSerializer
     }
