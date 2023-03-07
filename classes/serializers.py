@@ -1,10 +1,13 @@
 from .models import Classes
 from courses.models import Courses
+from campus.models import Campus
 from courses.serializers import CoursesSerializer
 from rest_framework import serializers
 from users.models import User
 from django.forms.models import model_to_dict
 from django.db import transaction
+from django.core.exceptions import ValidationError
+
 
 
 class ClassesSerializer(serializers.ModelSerializer):
@@ -15,14 +18,21 @@ class ClassesSerializer(serializers.ModelSerializer):
         
     def create(self, validated_data):
         with transaction.atomic():
+            campus_id = self.context['request'].parser_context['kwargs']['campus_id']
             course_id = self.context['request'].parser_context['kwargs']['course_id']
+            campus = Campus.objects.get(id=campus_id)
             course = Courses.objects.get(id=course_id)
             validated_data['courses'] = course
+            if course.campus != campus:
+                raise ValidationError("Este curso não pertence a esta unidade de ensino", code='invalid')
+                            
             classe = super().create(validated_data)
             classe_id = classe.id
             classe_dict = model_to_dict(classe)
             classe_dict['id'] = classe_id
         return classe_dict
+    
+    
    
    
    
@@ -33,6 +43,13 @@ class ClassesRetriveSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_studants(self, obj):
+        campus_id = self.context['request'].parser_context['kwargs']['campus_id']
+        course_id = self.context['request'].parser_context['kwargs']['course_id']
+        campus = Campus.objects.get(id=campus_id)
+        course = Courses.objects.get(id=course_id)
+        if course.campus != campus:
+            raise ValidationError("Este curso não pertence a esta unidade de ensino", code='invalid')
+                            
         list_classes = []
         classes = User.objects.filter(classe=obj.id)
         for item in classes:
