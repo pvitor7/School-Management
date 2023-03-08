@@ -22,6 +22,16 @@ class UserModelTest(TestCase):
         with self.assertRaises(IntegrityError):
             Courses.objects.create(**{"title": None, "campus": self.campus})
             
+            
     def test_db_create_course_with_course_invalid(self):
         with self.assertRaises(ValueError):
             Courses.objects.create(**{"title": "5º ano", "campus": "0"})
+            
+    def test_db_relations(self):
+        relation_campus = Campus.objects.create(**{	"title": "Colégio Test Relations",	"adress": "R. Relations , 1"})
+        for x in range(5):
+            course = Courses.objects.create(**{"title": f"Test Course {x}", "campus": relation_campus})
+            self.assertEqual(course.campus, relation_campus)
+        
+        count_courses = Courses.objects.filter(campus=relation_campus).count()
+        self.assertEqual(count_courses, 5)
