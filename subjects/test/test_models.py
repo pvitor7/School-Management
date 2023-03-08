@@ -66,7 +66,7 @@ class UserModelTest(TestCase):
             SubjectsStudants.objects.create(**{"user": self.studant, "subject": "", "test_1": None, "test_2": None, "test_3": None, "test_4": None})
     
 
-    def teste_db_relations(self):
+    def test_db_relations(self):
         relation_user = User.objects.create_user(**{
 	    	"username": "Gabigol",
             "password": "s3nh4s3gur4",
