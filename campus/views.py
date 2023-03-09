@@ -1,7 +1,6 @@
 from rest_framework import generics
 from .models import Campus, Roles
 from .serializers import CampusSerializer, RolesSerializer, CampusRetriveSerializer
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from users.permissions import AdminAuthenticated, OwnerAuthenticated, StudantAuthenticated
 from drf_spectacular.utils import extend_schema

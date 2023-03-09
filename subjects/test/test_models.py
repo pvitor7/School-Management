@@ -1,14 +1,14 @@
 from django.test import TestCase
 from campus.models import Campus, Roles
 from courses.models import Courses
-from ..models import Subjects, SubjectsStudants
+from subjects.models import Subjects, SubjectsStudants
 from campus.utils import roles
 from users.models import User
 from classes.models import Classes
 from django.db.utils import IntegrityError
 
 
-class UserModelTest(TestCase):
+class SubjectsModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.campus = Campus.objects.create(**{"title": "Colégio Nova Iguaçu", "adress": "R. Iguaçuano , 1"})

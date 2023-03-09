@@ -4,7 +4,7 @@ from campus.utils import roles
 from django.db.utils import IntegrityError
 
 
-class UserModelTest(TestCase):
+class CampusModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.dict_campus = {"title": "Colégio Nova Iguaçu", "adress": "R. Iguaçuano , 1"}

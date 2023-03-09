@@ -4,7 +4,7 @@ from ..models import Courses
 from django.db.utils import IntegrityError
 
 
-class UserModelTest(TestCase):
+class CoursesModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.dict_campus = {"title": "Colégio Nova Iguaçu", "adress": "R. Iguaçuano , 1"}
