@@ -1,7 +1,7 @@
 from .models import Classes
 from courses.models import Courses
-from campus.models import Campus
 from courses.serializers import CoursesSerializer
+from campus.models import Campus
 from rest_framework import serializers
 from users.models import User
 from django.forms.models import model_to_dict
@@ -11,7 +11,7 @@ from django.core.exceptions import ValidationError
 
 
 class ClassesSerializer(serializers.ModelSerializer):
-    courses = CoursesSerializer(read_only=True)
+    courses = serializers.ReadOnlyField()
     class Meta:
         model = Classes
         fields = ['id', 'title', 'courses']
@@ -32,6 +32,14 @@ class ClassesSerializer(serializers.ModelSerializer):
             classe_dict['id'] = classe_id
         return classe_dict
     
+
+
+class ClassesListSerializer(serializers.ModelSerializer):
+    # courses = CoursesSerializer(read_only=True)
+    class Meta:
+        model = Classes
+        fields = ['id', 'title', 'courses']
+        
     
    
    

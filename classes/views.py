@@ -1,17 +1,21 @@
 from rest_framework import generics
 from .models import Classes
-from .serializers import ClassesSerializer, ClassesRetriveSerializer
+from .serializers import ClassesSerializer, ClassesRetriveSerializer, ClassesListSerializer
 from rest_framework.authentication import TokenAuthentication
 from users.permissions import AssistantAuthenticated, AdminAuthenticated
 from drf_spectacular.utils import extend_schema
 
 from users.utils import SerializerByMethodMixin
 
-class ClassesListCreateView(generics.ListCreateAPIView):
+class ClassesListCreateView(SerializerByMethodMixin, generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [AssistantAuthenticated, AdminAuthenticated]
     queryset = Classes.objects.all()
-    serializer_class = ClassesSerializer
+    serializer_map = {
+        "POST": ClassesSerializer,
+        "GET": ClassesListSerializer
+    }
+    
     
     @extend_schema(description='Lista as turmas criadas (Todas as vinculadas a algum curso)', tags=['classes'])
     def get(self, request, *args, **kwargs):
