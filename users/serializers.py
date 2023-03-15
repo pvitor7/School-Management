@@ -7,11 +7,10 @@ from subjects.serializers import SubjectsSerializer
 from django.db import transaction
 
 class UserRetriveSerializer(serializers.ModelSerializer):
-    
     subjects = serializers.SerializerMethodField()
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'first_name', 'last_name', 'email', 'cellphone', 'classe', 'created_at', 'role', 'subjects']
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'cellphone', 'classe', 'created_at', 'role', 'subjects']
     
     def get_subjects(self, obj):
         list_subjects = [];

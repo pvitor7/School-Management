@@ -8,7 +8,10 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
 from .utils import SerializerByMethodMixin
 from .permissions import AssistantAuthenticated, UserAccountOrAdmin, UserAccountOrAassistant
+from django.http import Http404
 from drf_spectacular.utils import extend_schema
+
+
 
 class UserCreateView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -19,16 +22,18 @@ class UserCreateView(generics.CreateAPIView):
         return super().post(request, *args, **kwargs)
 
 
+
 class UserListView(generics.ListAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [AssistantAuthenticated, UserAccountOrAdmin]
+    permission_classes = [AssistantAuthenticated]
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserRetriveSerializer
     
     @extend_schema(description='Lista todos os usuários', tags=['users'])
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
     
+
 
 class UserIdView(SerializerByMethodMixin, generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
@@ -79,6 +84,8 @@ class LoginView(APIView):
         serializer = LoginSerializer(data=user_dict)
         serializer.is_valid(raise_exception=True)
         login_user = authenticate(**serializer.validated_data)
+        if not login_user:
+            raise Http404("User not found.")
         token, _ = Token.objects.get_or_create(user=login_user)
         return Response({"token": token.key})
         
