@@ -38,7 +38,7 @@ class CampusViewTest(APITestCase):
         self.assertEquals(expected_status_code, response.status_code)
         
     def test_create_campus(self):
-        test_request = {"title": "Colégio Nova Iguaçu", "adress": "R. Iguaçuano , 1"}
+        test_request = {"title": "Colégio Novo Teste", "adress": "R. Iguaçuano , 1"}
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
         expected_status_code = status.HTTP_201_CREATED
         response = self.client.post(self.base_create_campus_url, data=test_request)

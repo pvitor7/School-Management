@@ -92,10 +92,12 @@ Após o preenchimento das variáveis de ambiente, crie e execute as **migrations
 ./manage.py runserver
 ```
 
-<br/>
+##### 8. Testes.
+A aplicação também conta com testes (em desenvolvimento), que podem ser executados com o seguinte comando:
 
-OBS: Para testar os endpoints da API, você pode usar o [Postman](https://www.postman.com/) ou outra ferramenta similar.
-
+```
+./manage.py test 
+```
 <br/>
 
 <h3 align= "center">
@@ -117,7 +119,21 @@ Abaixo seguem exemplos de todas e suas respectivas permissões, que poderão ser
 Endpoints
 </h3>
 
+
+
+<br/>
+
+**OBS:** Para testar os endpoints da API, você pode usar o [Postman](https://www.postman.com/) ou outra ferramenta similar.
+
+**Para execução local:** http://localhost:8000
+**Deploy:** https://school-manager-api-foe3.onrender.com
+<br/>
+
+
+
 #### **User**
+
+
 Endpoints: http://localhost:8000/schema/swagger-ui/#/users/
 | Método | Rota              | Descrição                                       | Permissão              |
 | ------ | ----------------- | ------------------------------------------------|-----------------------------------------------------------|

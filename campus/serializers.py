@@ -5,6 +5,7 @@ from .utils import roles
 from users.models import User
 from courses.models import Courses
 from django.forms.models import model_to_dict
+from django.http import Http404
 
 
 class CampusSerializer(serializers.ModelSerializer):
@@ -14,8 +15,11 @@ class CampusSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         with transaction.atomic():
+            campus_already_exists = Campus.objects.filter(title=validated_data['title'])
+            if len(campus_already_exists) < 0:
+                raise serializers.ValidationError("Title Campus already exists.")
+                
             campus = Campus.objects.create(**validated_data)
-            
             for role in roles:
                 Roles.objects.create(title=role['title'], permission=role['permission'], campus=campus)
             

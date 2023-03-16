@@ -18,6 +18,11 @@ class ClassesSerializer(serializers.ModelSerializer):
         
     def create(self, validated_data):
         with transaction.atomic():
+            classe_already_exists = Classes.objects.filter(title=validated_data['title'], courses=self.context['request'].parser_context['kwargs']['course_id'])
+
+            if len(classe_already_exists) > 0:
+                raise serializers.ValidationError("Course already exist in campus.")
+            
             campus_id = self.context['request'].parser_context['kwargs']['campus_id']
             course_id = self.context['request'].parser_context['kwargs']['course_id']
             campus = Campus.objects.get(id=campus_id)
@@ -35,12 +40,9 @@ class ClassesSerializer(serializers.ModelSerializer):
 
 
 class ClassesListSerializer(serializers.ModelSerializer):
-    # courses = CoursesSerializer(read_only=True)
     class Meta:
         model = Classes
         fields = ['id', 'title', 'courses']
-        
-    
    
    
    
