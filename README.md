@@ -125,8 +125,7 @@ Endpoints
 
 **OBS:** Para testar os endpoints da API, você pode usar o [Postman](https://www.postman.com/) ou outra ferramenta similar.
 
-**Para execução local:** http://localhost:8000
-**Deploy:** https://school-manager-api-foe3.onrender.com
+**Para execução local:** http://localhost:8000 <br/> **Deploy:** https://school-manager-api-foe3.onrender.com
 <br/>
 
 
